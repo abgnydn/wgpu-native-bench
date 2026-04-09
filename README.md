@@ -34,12 +34,14 @@ PyTorch version: 2.10.0, CUDA 13.1. N=30 runs each, same machine.
 
 ### Apple M2 Pro — Metal backend
 
-| Benchmark | wgpu-native (Metal) | WebGPU Chrome | Speedup |
-|---|---|---|---|
-| Rastrigin (POP=4096, DIM=2000) | **357.9 gen/s** | 170.3 gen/s | **2.1×** |
-| Rastrigin (POP=4096, DIM=100) | **718.1 gen/s** | — | — |
-| N-Body (POP=512, N=128, 200 steps) | 1.0 gen/s | — | — |
-| N-Body (POP=512, N=64, 200 steps) | 4.0 gen/s | — | — |
+| Benchmark | wgpu-native (Metal) | WebGPU Chrome | PyTorch MPS | vs PyTorch |
+|---|---|---|---|---|
+| **Rastrigin (POP=4096, DIM=2000)** | **357.9 gen/s** | 170.3 gen/s | 160.5 gen/s | **2.2×** |
+| Rastrigin (POP=4096, DIM=100) | **718.1 gen/s** | — | — | — |
+| N-Body (POP=512, N=128, 200 steps) | 1.0 gen/s | — | — | — |
+| N-Body (POP=512, N=64, 200 steps) | 4.0 gen/s | — | — | — |
+
+Note: WebGPU Chrome and PyTorch MPS numbers from the [paper](https://doi.org/10.5281/zenodo.19343570). DIM=100 and N-Body were only benchmarked natively.
 
 ### Cross-platform summary (Rastrigin POP=4096, DIM=2000)
 
