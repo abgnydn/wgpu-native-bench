@@ -43,13 +43,13 @@ PyTorch version: 2.10.0, CUDA 13.1. N=30 runs each, same machine.
 
 ### Cross-platform summary (Rastrigin POP=4096, DIM=2000)
 
-| System | gen/s | Hardware | vs PyTorch CUDA (same GPU) |
+| System | gen/s | Hardware | vs PyTorch (same GPU) |
 |---|---|---|---|
-| **wgpu-native Vulkan** | **4,543** | **RTX 3090** | **6.7×** |
+| **wgpu-native Vulkan** | **4,543** | **RTX 3090** | **6.7× vs PyTorch CUDA** |
 | PyTorch CUDA | 680 | RTX 3090 | 1× |
-| wgpu-native Metal | 358 | M2 Pro | — |
-| WebGPU in Chrome | 170 | M2 Pro | — |
-| PyTorch MPS | 161 | M2 Pro | — |
+| wgpu-native Metal | 358 | M2 Pro | **2.2× vs PyTorch MPS** |
+| WebGPU in Chrome | 170 | M2 Pro | 1.06× vs PyTorch MPS |
+| PyTorch MPS | 161 | M2 Pro | 1× |
 
 ## Why it's faster
 
