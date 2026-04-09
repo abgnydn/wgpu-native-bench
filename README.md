@@ -32,16 +32,16 @@ PyTorch version: 2.10.0, CUDA 13.1. N=30 runs each, same machine.
 | N-Body (POP=512, N=128, 200 steps) | 2.5 gen/s |
 | N-Body (POP=512, N=64, 200 steps) | 15.9 gen/s |
 
-### Apple M2 Pro — Metal backend
+### Apple M2 Pro — Metal backend (all measured on same machine, N=30)
 
-| Benchmark | wgpu-native (Metal) | WebGPU Chrome | PyTorch MPS | vs PyTorch |
-|---|---|---|---|---|
-| **Rastrigin (POP=4096, DIM=2000)** | **357.9 gen/s** | 170.3 gen/s | 160.5 gen/s | **2.2×** |
-| Rastrigin (POP=4096, DIM=100) | **718.1 gen/s** | — | — | — |
-| N-Body (POP=512, N=128, 200 steps) | 1.0 gen/s | — | — | — |
-| N-Body (POP=512, N=64, 200 steps) | 4.0 gen/s | — | — | — |
+| Benchmark | wgpu-native (Metal) | PyTorch MPS | vs PyTorch |
+|---|---|---|---|
+| **Rastrigin (POP=4096, DIM=2000)** | **376.3 gen/s** | 77.7 gen/s | **4.8×** |
+| Rastrigin (POP=4096, DIM=100) | **716.7 gen/s** | 753.7 gen/s | 0.95× |
+| **N-Body (POP=512, N=128, 200 steps)** | **1.0 gen/s** | 0.5 gen/s | **2.1×** |
+| **N-Body (POP=512, N=64, 200 steps)** | **4.0 gen/s** | 1.8 gen/s | **2.2×** |
 
-Note: WebGPU Chrome and PyTorch MPS numbers from the [paper](https://doi.org/10.5281/zenodo.19343570). DIM=100 and N-Body were only benchmarked natively.
+On small parallel workloads (DIM=100), PyTorch MPS is competitive. On large workloads (DIM=2000) and sequential workloads (N-Body), kernel fusion wins by 2-5×. The advantage grows with workload complexity.
 
 ### Cross-platform summary (Rastrigin POP=4096, DIM=2000)
 
