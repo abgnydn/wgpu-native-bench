@@ -6,34 +6,37 @@ For direct comparison: wgpu-native (Vulkan/Metal) vs CUDA vs PyTorch on the same
 
 ## Results
 
+### NVIDIA RTX 3090 — Vulkan backend
+
+| Benchmark | wgpu-native (Vulkan) | vs WebGPU Chrome (M2 Pro) | vs Hand-fused CUDA (T4) |
+|---|---|---|---|
+| **Rastrigin (POP=4096, DIM=2000)** | **5,028.7 gen/s** | **29.5×** faster | **11.5×** faster |
+| **Rastrigin (POP=4096, DIM=100)** | **8,010.0 gen/s** | — | — |
+| N-Body (POP=512, N=128, 200 steps) | 2.5 gen/s | — | — |
+| N-Body (POP=512, N=64, 200 steps) | 15.6 gen/s | — | — |
+
 ### Apple M2 Pro — Metal backend
 
-| Benchmark | wgpu-native | WebGPU Chrome | Speedup |
+| Benchmark | wgpu-native (Metal) | vs WebGPU Chrome | Speedup |
 |---|---|---|---|
 | Rastrigin (POP=4096, DIM=2000) | **357.9 gen/s** | 170.3 gen/s | **2.1×** |
 | Rastrigin (POP=4096, DIM=100) | **718.1 gen/s** | — | — |
 | N-Body (POP=512, N=128, 200 steps) | 1.0 gen/s | — | — |
 | N-Body (POP=512, N=64, 200 steps) | 4.0 gen/s | — | — |
 
-### Comparison targets (from paper, same workloads)
+### Full comparison (Rastrigin POP=4096, DIM=2000)
 
-| System | Rastrigin gen/s | Hardware |
-|---|---|---|
-| **wgpu-native (this repo)** | **357.9** | M2 Pro, Metal |
-| wgpu-native (paper) | 326.5 | M2 Pro, Metal |
-| WebGPU in Chrome | 170.3 | M2 Pro |
-| PyTorch MPS | 160.5 | M2 Pro |
-| **NVIDIA comparison pending** | **???** | T4, Vulkan |
-| Hand-fused CUDA (paper) | 439.0 | T4 |
-| PyTorch CUDA per-step | 0.61 | T4 |
+| System | gen/s | Hardware | vs PyTorch CUDA |
+|---|---|---|---|
+| **wgpu-native Vulkan** | **5,028.7** | **RTX 3090** | **8,243×** |
+| Hand-fused CUDA (paper) | 439.0 | T4 | 720× |
+| wgpu-native Metal | 357.9 | M2 Pro | 587× |
+| wgpu-native Metal (paper) | 326.5 | M2 Pro | 535× |
+| WebGPU in Chrome | 170.3 | M2 Pro | 279× |
+| PyTorch MPS | 160.5 | M2 Pro | 263× |
+| PyTorch CUDA per-step | 0.61 | T4 | 1× |
 
-### TODO: NVIDIA T4 (Vulkan)
-
-Run on vast.ai ($0.10/hr) to get the apples-to-apples CUDA comparison:
-
-```bash
-cargo run --release
-```
+**Key takeaway:** wgpu-native on Vulkan (RTX 3090) achieves 5,029 gen/s — the same WGSL shader, no CUDA, no framework. One codebase runs on NVIDIA (Vulkan), Apple (Metal), AMD, Intel, and Qualcomm.
 
 ## Run
 
@@ -43,6 +46,11 @@ cargo build --release
 ```
 
 Requires Rust 1.70+. Automatically selects the best available GPU backend (Metal on Mac, Vulkan on Linux/Windows).
+
+For NVIDIA on Linux (Docker/vast.ai), set the Vulkan ICD:
+```bash
+VK_ICD_FILENAMES=/etc/vulkan/icd.d/nvidia_icd.json ./target/release/wgpu-bench
+```
 
 ## Benchmarks
 
