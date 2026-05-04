@@ -1,5 +1,10 @@
 # wgpu-native-bench
 
+[![CI](https://github.com/abgnydn/wgpu-native-bench/actions/workflows/ci.yml/badge.svg)](https://github.com/abgnydn/wgpu-native-bench/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE)
+[![Sister project](https://img.shields.io/badge/browser%20version-gpubench.dev-6ea8ff)](https://gpubench.dev)
+[![Rust](https://img.shields.io/badge/rust-stable-orange)](https://www.rust-lang.org/)
+
 Same WGSL shaders as [gpubench.dev](https://gpubench.dev), running natively via `wgpu` — no browser, no framework, no overhead.
 
 ## The Number
